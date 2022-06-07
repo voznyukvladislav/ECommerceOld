@@ -1,0 +1,184 @@
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.headerText {
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding-top: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.wrapper {
+    height: 80%;
+    width: 100%;
+}
+
+.leftBar {
+    float: left;
+    background-color: rgb(230, 230, 230);
+    width: 25%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.leftBarText {
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.tablesList {
+    padding: 0;
+    margin: 0;
+}
+
+.tablesListItem {
+    list-style: none;
+}
+
+.button {
+    display: block;
+    color: white;
+    background-color: white;
+    border-radius: 10px;
+    border-color: black;
+    transition: all 0.3s;
+    /*background-color:	#3d66fb; */
+    background-color: rgb(100, 100, 100);
+    margin: 7px 5px 7px 5px;
+    padding: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .button:hover {
+        /*background-color: #1435ad;*/
+        background-color: rgb(255, 136, 0);
+    }
+.deleteButton:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.buttonsHolder {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formButton {
+    display: block;
+    font-size: 14px;
+    width: 60%;
+    color: white;
+    background-color: white;
+    border-radius: 10px;
+    border-color: black;
+    transition: all 0.3s;
+    /*background-color:	#3d66fb; */
+    background-color: rgb(100, 100, 100);
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .formButton:hover {
+        /*background-color: #1435ad;*/
+        background-color: rgb(255, 136, 0);
+    }
+
+.content {
+    width: 75%;
+    height: 100%;
+    float: left;
+    background-color: rgb(221, 221, 221);
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+.line {
+    margin: 0;
+    padding: 0;
+    border-color: black;
+    border-style: solid;
+}
+
+.formHeader {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+.formInput {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form {
+    border-radius: 20px;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: rgb(194, 194, 194);
+    box-sizing: border-box;
+    border: 2px solid black;
+}
+
+.footer {
+    width: 100%;
+    height: 10%;
+    background-color: rgb(212, 212, 212);
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.footerText {
+    padding: 0;
+    margin: 0;
+    padding-top: 25px;
+    padding-right: 20px;
+    text-align: right;
+    font-size: 14px;
+}

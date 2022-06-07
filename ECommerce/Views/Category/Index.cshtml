@@ -1,0 +1,30 @@
+﻿@using ECommerce.Data;
+@model List<Category>
+
+<script src="~/js/addings.js"></script>
+
+<div class="form">
+    <p class="formHeader"> Додати нову категорію товарів </p>
+    <form action="post">
+        <input class="formInput" id="inputName" type="text" name="Category.Name" placeholder="Введіть назву категорії">
+        <a class="formButton" onclick="addCategory('inputName', 'Category/Add')"> Додати </a>
+    </form>
+</div>
+
+<hr>
+
+@for(int i = 0; i < Model.Count; i++) {
+    <div class="form">
+        <p class="formHeader"> №@(i + 1) </p>
+        <form action="post">
+            <input readonly class="formInput" type="text" name="Category.Id" value="@Model[i].Id">
+            <input class="formInput" type="text" name="Category.Name" value="@Model[i].Name" placeholder="Введіть назву категорії">
+            <table class="buttonsHolder">
+                <tr>
+                    <td><a class="button" onclick="">Змінити</a></td>
+                    <td><a class="button deleteButton" onclick="">Видалити</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}
