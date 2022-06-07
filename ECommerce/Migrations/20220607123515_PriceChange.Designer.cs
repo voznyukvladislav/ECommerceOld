@@ -4,6 +4,7 @@ using ECommerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    partial class ECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220607123515_PriceChange")]
+    partial class PriceChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,6 +147,22 @@ namespace ECommerce.Migrations
                     b.ToTable("Presets");
                 });
 
+            modelBuilder.Entity("ECommerce.Models.Price", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("PriceAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prices");
+                });
+
             modelBuilder.Entity("ECommerce.Models.PricesArchive", b =>
                 {
                     b.Property<int>("Id")
@@ -186,8 +204,8 @@ namespace ECommerce.Migrations
                     b.Property<int>("PresetId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("PriceId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
@@ -197,6 +215,8 @@ namespace ECommerce.Migrations
                     b.HasIndex("DiscountId");
 
                     b.HasIndex("PresetId");
+
+                    b.HasIndex("PriceId");
 
                     b.HasIndex("SubCategoryId");
 
@@ -339,6 +359,12 @@ namespace ECommerce.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ECommerce.Models.Price", "Price")
+                        .WithMany()
+                        .HasForeignKey("PriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ECommerce.Models.SubCategory", null)
                         .WithMany("Products")
                         .HasForeignKey("SubCategoryId");
@@ -346,6 +372,8 @@ namespace ECommerce.Migrations
                     b.Navigation("Discount");
 
                     b.Navigation("Preset");
+
+                    b.Navigation("Price");
                 });
 
             modelBuilder.Entity("ECommerce.Models.SubCategory", b =>
