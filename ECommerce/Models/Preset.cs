@@ -2,11 +2,11 @@
 
 namespace ECommerce.Models
 {
-    public class Price
+    public class Preset
     {
         [Key]
         public int Id { get; set; }
-        public decimal PriceAmount { get; set; }
-        Product Product { get; set; }
+        public string Name { get; set; }
+        public List<Attribute> Attributes { get; set; }
     }
 }
