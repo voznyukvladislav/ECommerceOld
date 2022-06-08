@@ -2,11 +2,11 @@
 
 namespace ECommerce.Models
 {
-    public class Preset
+    public class Preset_Attribute
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Preset_Attribute> Preset_Attributes { get; set; }
+        public Attribute Attribute { get; set; }
+        public Preset Preset { get; set; }
     }
 }

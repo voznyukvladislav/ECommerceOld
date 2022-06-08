@@ -53,3 +53,31 @@ function addAttribute(inputNameId) {
 		}
 	})
 }
+
+function addPreset(presetNameId, attributesCount) {
+	let name = document.getElementById(presetNameId).value;
+
+	let checkedList = Array();
+	let checkboxListItem;
+	for (let i = 0; i < attributesCount; i++) {
+		checkboxListItem = document.getElementById(`checkbox${i}`);
+		if (checkboxListItem.checked) checkedList.push(checkboxListItem.value);
+	}
+
+	let checkedListJson = JSON.stringify(checkedList);
+
+	$.ajax({
+		type: "POST",
+		url: "Preset/Add",
+		async: false,
+		data: {
+			Name: name,
+			CheckedListJson: checkedListJson
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+
+	console.log(checkedList);
+}

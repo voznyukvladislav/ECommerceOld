@@ -16,6 +16,7 @@ namespace ECommerce.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<Preset> Presets { get; set; }
+        public DbSet<Preset_Attribute> Presets_Attributes { get; set; }
 
         public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options)
         {
