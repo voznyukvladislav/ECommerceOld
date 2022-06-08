@@ -5,10 +5,6 @@
     }
 }
 
-function addProduct(tableName, attributes) {
-
-}
-
 function addCategory(inputId) {
 	let name = document.getElementById(inputId).value;
 	$.ajax({
@@ -35,6 +31,22 @@ function addSubCategory(inputNameId, inputCategoryId) {
 		data: {
 			Name: name,
 			'Category.Id': categoryId
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}
+
+function addAttribute(inputNameId) {
+	let name = document.getElementById(inputNameId).value;
+
+	$.ajax({
+		type: "POST",
+		url: "Attribute/Add",
+		async: false,
+		data: {
+			Name: name
 		},
 		success: () => {
 			document.location.reload();

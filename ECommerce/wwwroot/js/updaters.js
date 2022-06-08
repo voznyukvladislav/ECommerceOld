@@ -35,3 +35,21 @@ function updateSubCategory(inputSubCategoryId, inputSubCategoryName, inputCatego
 		}
 	})
 }
+
+function updateAttribute(inputId, inputName) {
+	let id = document.getElementById(inputId).value;
+	let name = document.getElementById(inputName).value;
+
+	$.ajax({
+		type: "POST",
+		url: "Attribute/Update",
+		async: false,
+		data: {
+			Id: id,
+			Name: name
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

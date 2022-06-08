@@ -29,3 +29,19 @@ function deleteSubCategory(inputId) {
 		}
 	})
 }
+
+function deleteAttribute(inputId) {
+	let id = document.getElementById(inputId).value;
+
+	$.ajax({
+		type: "DELETE",
+		url: "Attribute/Delete",
+		async: false,
+		data: {
+			Id: id
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

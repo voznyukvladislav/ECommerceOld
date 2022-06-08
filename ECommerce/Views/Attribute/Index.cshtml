@@ -1,0 +1,33 @@
+﻿@using ECommerce.Data;
+@model List<ECommerce.Models.Attribute>
+
+<script src="~/js/adders.js"></script>
+<script src="~/js/updaters.js"></script>
+<script src="~/js/deleters.js"></script>
+<script src="~/js/jQuery.js"></script>
+
+<div class="form">
+    <p class="formHeader"> Додати новий атрибут </p>
+    <form action="post" autocomplete="off">
+        <input class="formInput" id="inputName" type="text" name="Attribute.Name" placeholder="Введіть назву атрибуту">
+        <a class="formButton" onclick="addAttribute('inputName')"> Додати </a>
+    </form>
+</div>
+
+<hr>
+
+@for(int i = 0; i < Model.Count; i++) {
+    <div class="form">
+        <p class="formHeader"> №@(i + 1) </p>
+        <form action="post">
+            <input id="formInputId@(i)" readonly class="formInput" type="text" name="Category.Id" value="@Model[i].Id">
+            <input id="formInputName@(i)" class="formInput" type="text" name="Category.Name" value="@Model[i].Name" placeholder="Введіть назву атрибуту">
+            <table class="buttonsHolder">
+                <tr>
+                    <td><a class="button" onclick="updateAttribute('formInputId@(i)', 'formInputName@(i)')">Змінити</a></td>
+                    <td><a class="button deleteButton" onclick="deleteAttribute('formInputId@(i)')">Видалити</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}
