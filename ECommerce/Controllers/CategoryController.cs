@@ -26,14 +26,14 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Category category)
+        public IActionResult Update(Category category)
         {
             _db.Categories.Update(category);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Delete(Category category)
         {
             _db.Categories.Remove(category);

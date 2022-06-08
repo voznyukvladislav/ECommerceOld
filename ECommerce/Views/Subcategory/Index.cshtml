@@ -1,0 +1,61 @@
+﻿@using ECommerce.Data;
+@{
+    List<Category> categories = ViewBag.Categories;
+    List<SubCategory> subCategories = ViewBag.SubCategories;
+}
+
+<script src="~/js/dropdown.js"></script>
+<script src="~/js/adders.js"></script>
+<script src="~/js/updaters.js"></script>
+<script src="~/js/deleters.js"></script>
+<script src="~/js/jQuery.js"></script>
+
+<div class="form">
+    <p class="formHeader"> Додати нову субкатегорію товарів </p>
+    <form action="post" autocomplete="off">
+        <input class="formInput" id="inputName" type="text" name="SubCategory.Name" placeholder="Введіть назву субкатегорії">
+        <input readonly placeholder="Оберіть категорію зі списку" class="formInput" id="inputCategory" data-categoryId="0">
+        
+        <div class="dropdown">
+            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список </a>
+            <div class="dropdownContent" id="dropdownList">
+                @for(int i = 0; i < categories.Count; i++)
+                {
+                    <a class="dropdownListItem" onclick="selectItem('dropdownList', 'dropdownButton', 'inputCategory', 'data-categoryId', `@categories[i].Id`, `@categories[i].Name`)">@(i + 1). @categories[i].Name</a>
+                }
+            </div>
+        </div>
+        
+        <a class="formButton" onclick="addSubCategory('inputName', 'inputCategory')"> Додати </a>
+    </form>
+</div>
+
+<hr>
+
+@for(int i = 0; i < subCategories.Count; i++) {
+    <div class="form">
+        <p class="formHeader"> №@(i + 1) </p>
+        <form action="post">
+            <input readonly class="formInput" id="inputId@(i)" type="text" name="SubCategory.Id" value="@subCategories[i].Id">
+            <input class="formInput" id="inputName@(i)" type="text" name="SubCategory.Name" placeholder="Введіть назву субкатегорії" value="@subCategories[i].Name">
+            <input readonly placeholder="Оберіть категорію зі списку" class="formInput" id="inputCategory@(i)" value="@subCategories[i].Category.Name" data-categoryId="@subCategories[i].Category.Id">
+        
+            <div class="dropdown">
+                <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список </a>
+                <div class="dropdownContent" id="dropdownList@(i)">
+                    @for(int j = 0; j < categories.Count; j++)
+                    {
+                        <a class="dropdownListItem" onclick="selectItem('dropdownList@(i)', 'dropdownButton@(i)', 'inputCategory@(i)', 'data-categoryId', `@categories[j].Id`, `@categories[j].Name`)">@(j + 1). @categories[j].Name</a>
+                    }
+                </div>
+            </div>
+            
+            <table class="buttonsHolder">
+                <tr>
+                    <td><a class="button" onclick="updateSubCategory('inputId@(i)', 'inputName@(i)', 'inputCategory@(i)')">Змінити</a></td>
+                    <td><a class="button deleteButton" onclick="deleteSubCategory('inputId@(i)')">Видалити</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}
