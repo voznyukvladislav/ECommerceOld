@@ -62,15 +62,15 @@
 
                     if(exists)
                     {
-                        <div class="checkboxListItem" onclick=" check('checkbox@(i)')">
-                            <input type="checkbox" checked="checked" class="checkbox" id="checkbox@(i)" value="@Attributes[j].Id">
-                            <label for="checkbox@(i)">@(j + 1). @Attributes[j].Name</label>
+                        <div class="checkboxListItem" onclick="check('checkbox@(i)@(j)')">
+                            <input type="checkbox" checked="checked" class="checkbox" id="checkbox@(i)@(j)" value="@Attributes[j].Id">
+                            <label for="checkbox@(i)@(j)">@(j + 1). @Attributes[j].Name</label>
                         </div> 
                     } else
                     {
-                        <div class="checkboxListItem" onclick=" check('checkbox@(i)')">
-                            <input type="checkbox" class="checkbox" id="checkbox@(i)" value="@Attributes[j].Id">
-                            <label for="checkbox@(i)">@(j + 1). @Attributes[j].Name</label>
+                        <div class="checkboxListItem" onclick="check('checkbox@(i)@(j)')">
+                            <input type="checkbox" class="checkbox" id="checkbox@(i)@(j)" value="@Attributes[j].Id">
+                            <label for="checkbox@(i)@(j)">@(j + 1). @Attributes[j].Name</label>
                         </div>   
                     }                                           
                 }
@@ -79,8 +79,8 @@
         
         <table class="buttonsHolder">
             <tr>
-                <td><a class="button" onclick="updateAttribute('formInputId@(i)', 'formInputName@(i)')">Змінити</a></td>
-                <td><a class="button deleteButton" onclick="deleteAttribute('formInputId@(i)')">Видалити</a></td>
+                <td><a class="button" onclick="updatePreset('inputId@(i)', 'inputName@(i)', @Attributes.Count, @(i))">Змінити</a></td>
+                <td><a class="button deleteButton" onclick="deletePreset('inputId@(i)')">Видалити</a></td>
             </tr>
         </table>
     </form>

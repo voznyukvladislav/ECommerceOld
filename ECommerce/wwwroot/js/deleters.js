@@ -45,3 +45,19 @@ function deleteAttribute(inputId) {
 		}
 	})
 }
+
+function deletePreset(inputId) {
+	let id = document.getElementById(inputId).value;
+
+	$.ajax({
+		type: "DELETE",
+		url: "Preset/Delete",
+		async: false,
+		data: {
+			Id: id
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

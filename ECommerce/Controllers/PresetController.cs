@@ -46,5 +46,36 @@ namespace ECommerce.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Update(Preset preset, string CheckedListJson)
+        {
+            List<string> attributeIdListDTO = JsonSerializer.Deserialize<List<string>>(CheckedListJson);
+            List<Models.Attribute> attributes = new List<Models.Attribute>();
+            List<Preset_Attribute> preset_Attributes = new List<Preset_Attribute>();
+            for (int i = 0; i < attributeIdListDTO.Count; i++)
+            {
+                attributes.Add(_db.Attributes.Find(Convert.ToInt32(attributeIdListDTO[i])));
+
+                preset_Attributes.Add(new Preset_Attribute() { Attribute = attributes[i], Preset = preset });
+            }
+
+            preset.Preset_Attributes = preset_Attributes;
+
+            _db.Presets.Update(preset);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(Preset preset)
+        {
+            preset = _db.Presets.Find(preset.Id);
+            _db.Presets.Remove(preset);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

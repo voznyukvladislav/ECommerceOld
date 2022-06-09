@@ -53,3 +53,33 @@ function updateAttribute(inputId, inputName) {
 		}
 	})
 }
+
+function updatePreset(presetInputId, presetNameId, attributesCount, i) {
+	let id = document.getElementById(presetInputId).value;
+	let name = document.getElementById(presetNameId).value;
+
+	let checkedList = Array();
+	let checkboxListItem;
+	for (let j = 0; j < attributesCount; j++) {
+		checkboxListItem = document.getElementById(`checkbox${i}${j}`);
+		if (checkboxListItem.checked) checkedList.push(checkboxListItem.value);
+	}
+
+	let checkedListJson = JSON.stringify(checkedList);
+
+	$.ajax({
+		type: "POST",
+		url: "Preset/Update",
+		async: false,
+		data: {
+			Id: id,
+			Name: name,
+			CheckedListJson: checkedListJson
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+
+	console.log(checkedList);
+}
