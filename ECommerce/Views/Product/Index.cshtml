@@ -1,0 +1,36 @@
+﻿@using ECommerce.Data;
+@using ECommerce.Models;
+@{
+    List<Preset> Presets = ViewBag.Presets;
+
+}
+
+<script src="~/js/checkbox.js"></script>
+<script src="~/js/dropdown.js"></script>
+<script src="~/js/adders.js"></script>
+<script src="~/js/updaters.js"></script>
+<script src="~/js/deleters.js"></script>
+<script src="~/js/jQuery.js"></script>
+
+<div class="form">
+    <p class="formHeader"> Додати новий товар </p>
+    <form action="post" autocomplete="off">
+        <p class="formHeader"> Оберіть один з пресетів </p>
+        <div class="dropdown">
+            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список </a>
+            <div class="dropdownContent" id="dropdownList">
+                @for(int i = 0; i < Presets.Count; i++)
+                {
+                    <div class="checkboxListItem" onclick=" check('radio@(i)')">
+                        <input name="presetId" type="radio" class="checkbox" id="radio@(i)" value="@Presets[i].Id">
+                        <label >@(i + 1). @Presets[i].Name</label>
+                    </div>                    
+                }
+            </div>
+        </div>
+        
+        <a class="formButton" onclick="addProductForm('@(Presets.Count)')"> Додати </a>
+    </form>
+</div>
+
+<hr>

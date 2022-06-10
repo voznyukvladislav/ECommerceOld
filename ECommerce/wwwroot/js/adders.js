@@ -1,11 +1,4 @@
-﻿class Attribute {
-    constructor(name, value) {
-        this.name = name;
-        this.value = value;
-    }
-}
-
-function addCategory(inputId) {
+﻿function addCategory(inputId) {
 	let name = document.getElementById(inputId).value;
 	$.ajax({
 		type: "POST",
@@ -80,4 +73,60 @@ function addPreset(presetNameId, attributesCount) {
 	})
 
 	console.log(checkedList);
+}
+
+function addProductForm(presetsCount) {
+	let presetId, radio;
+	for (let i = 0; i < presetsCount; i++) {
+		radio = document.getElementById(`radio${i}`);
+		if (radio.checked) {
+			presetId = radio.value;
+			break;
+        }
+    }
+
+	$.ajax({
+		type: "POST",
+		url: "Product/AddForm",
+		async: false,
+		data: {
+			'Preset.Id': presetId
+		},
+		success: function (data, status, xhr) {
+			document.body.innerHTML = data;
+		}
+	})
+}
+
+class Attribute {
+	constructor(attributeId, value) {
+		this.AttributeId = attributeId;
+		this.Value = value;
+	}
+}
+
+function addProduct(attributesCount, presetId) {
+	let price = document.getElementById("formInputPrice").value;
+
+	let attributes = Array();
+	let field;
+	for (let i = 0; i < attributesCount; i++) {
+		field = document.getElementById(`formInput${i}`);
+		attributes.push(new Attribute(field.getAttribute('data-attributeId'), field.value));
+	}
+
+	let attributesJson = JSON.stringify(attributes);
+	$.ajax({
+		type: "POST",
+		url: "Product/Add",
+		async: false,
+		data: {
+			Attributes: attributesJson,
+			Price: price,
+			'Preset.Id': presetId
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
 }

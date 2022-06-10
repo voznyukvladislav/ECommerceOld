@@ -8,7 +8,7 @@ namespace ECommerce.Models
         public int Id { get; set; }
         public decimal Price { get; set; }
         public Preset Preset { get; set; }
-        public List<Value> Values { get; set; }
-        public Discount Discount { get; set; }
+        public List<Product_Attribute> Product_Attributes { get; set; }
+        public Discount? Discount { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace ECommerce.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Preset_Attribute> Preset_Attributes { get; set; }
-        public List<Value> Values { get; set; }
+        public List<Product_Attribute> Product_Attributes { get; set; }
     }
 }

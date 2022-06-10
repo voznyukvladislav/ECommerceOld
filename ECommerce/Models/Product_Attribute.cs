@@ -2,11 +2,11 @@
 
 namespace ECommerce.Models
 {
-    public class Value
+    public class Product_Attribute
     {
         [Key]
         public int Id { get; set; }
-        public string Val { get; set; }
+        public string Value { get; set; }
         public Attribute Attribute { get; set; }
         public Product Product { get; set; }
     }

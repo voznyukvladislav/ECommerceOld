@@ -8,7 +8,7 @@ namespace ECommerce.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Value> Values { get; set; }
+        public DbSet<Product_Attribute> Product_Attributes { get; set; }
         public DbSet<Models.Attribute> Attributes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<PricesArchive> PricesArchives { get; set; }
@@ -16,7 +16,7 @@ namespace ECommerce.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<Preset> Presets { get; set; }
-        public DbSet<Preset_Attribute> Presets_Attributes { get; set; }
+        public DbSet<Preset_Attribute> Preset_Attributes { get; set; }
 
         public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options)
         {
