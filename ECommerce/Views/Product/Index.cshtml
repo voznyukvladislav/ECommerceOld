@@ -1,8 +1,8 @@
 ﻿@using ECommerce.Data;
 @using ECommerce.Models;
 @{
-    List<Preset> Presets = ViewBag.Presets;
-
+    List<Preset> Presets = ViewBag.Presets;    
+    List<Product> Products = ViewBag.Products;
 }
 
 <script src="~/js/checkbox.js"></script>
@@ -34,3 +34,36 @@
 </div>
 
 <hr>
+
+@for(int i = 0; i < Products.Count; i++)
+{
+    <div class="form">
+    <p class="formHeader"> Товар №@(i) </p>
+    <p class="formHeader"> Пресет: @Products[i].Preset.Name     </p>
+    <form action="post" autocomplete="off">  
+        <input readonly type="text" class="formInput" id="formInputId@(i)"
+            value=@Products[i].Id>
+        <div class="dropdown">            
+            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список </a>
+            <div class="dropdownContent" id="dropdownList@(i)">
+                <input type="number" class="formInput" id="formInputPrice@(i)" value=@Products[i].Price placeholder="Ціна">
+                @for(int j = 0; j < Products[i].Preset.Preset_Attributes.Count; j++)
+                {
+                     <input type="text" class="formInput" id="formInput@(i)@(j)"
+                         data-attributeId="@Products[i].Preset.Preset_Attributes[j].Attribute.Id"
+                         placeholder="@Products[i].Preset.Preset_Attributes[j].Attribute.Name"
+                         value="@Products[i].Product_Attributes[j].Value">          
+                }
+            </div>
+        </div>
+        <table class="buttonsHolder">
+            <tr>
+                <td><a class="button"
+                    onclick="updateProduct('formInputId@(i)', @Products[i].Product_Attributes.Count, @(i))"
+                >Змінити</a></td>
+                <td><a class="button deleteButton" onclick="deleteProduct('formInputId@(i)')">Видалити</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+}

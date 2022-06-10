@@ -80,6 +80,32 @@ function updatePreset(presetInputId, presetNameId, attributesCount, i) {
 			document.location.reload();
 		}
 	})
+}
 
-	console.log(checkedList);
+function updateProduct(productInputId, attributesCount, i) {
+	let id = document.getElementById(productInputId).value;
+	let price = document.getElementById(`formInputPrice${i}`).value;
+
+	let attributes = Array();
+	let field;
+	for (let j = 0; j < attributesCount; j++) {
+		field = document.getElementById(`formInput${i}${j}`);
+		attributes.push(new Attribute(field.getAttribute('data-attributeId'), field.value));
+	}
+
+	let attributesJson = JSON.stringify(attributes);
+
+	$.ajax({
+		type: "POST",
+		url: "Product/Update",
+		async: false,
+		data: {
+			Attributes: attributesJson,
+			Price: price,
+			'Product.Id': id
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
 }

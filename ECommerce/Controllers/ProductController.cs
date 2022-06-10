@@ -21,6 +21,14 @@ namespace ECommerce.Controllers
                 .ThenInclude(preset => preset.Attribute)
                 .ToList();
 
+            List<Product> products = _db.Products
+                .Include(product => product.Preset)
+                .ThenInclude(preset => preset.Preset_Attributes)
+                .ThenInclude(preset => preset.Attribute)
+                .Include(product => product.Product_Attributes)
+                .ToList();
+
+            ViewBag.Products = products;
             ViewBag.Presets = presets;
 
             return View();
@@ -36,8 +44,8 @@ namespace ECommerce.Controllers
                 where presets.Preset == preset
                 select presets).ToList();
             preset.Preset_Attributes = preset_Attributes;
-
-            ViewBag.Preset = preset;
+            
+            ViewBag.Preset = preset;            
 
             return View();
         }
@@ -71,6 +79,52 @@ namespace ECommerce.Controllers
             product.Product_Attributes = product_Attributes;
             
             _db.Products.Add(product);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Update(string Attributes, Product product)
+        {
+            //product = _db.Products.Find(product.Id);
+
+            product = (from prod in _db.Products
+                      .Include(prod => prod.Product_Attributes)
+                      .ToList()
+                       where prod.Id == product.Id
+                       select prod).ToList()[0];
+
+            List < AttributeDTO > attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
+
+            //List<Product_Attribute> product_Attributes = new List<Product_Attribute>();
+            Models.Attribute attribute; 
+            for(int i = 0; i < attributeDTOs.Count; i++)
+            {
+                attribute = _db.Attributes.Find(Convert.ToInt32(attributeDTOs[i].AttributeId));
+                //product_Attributes.Add(new Product_Attribute { Attribute = attribute, Product = product, Value = attributeDTOs[i].Value });
+                for(int j = 0; j < product.Product_Attributes.Count; j++)
+                {
+                    if (product.Product_Attributes[j].Attribute.Id == Convert.ToInt32(attributeDTOs[i].AttributeId))
+                    {
+                        product.Product_Attributes[j].Value = attributeDTOs[i].Value;
+                        break;
+                    }
+                }
+            }
+
+            //product.Product_Attributes = product_Attributes;
+            _db.Products.Update(product);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(Product product)
+        {
+            product = _db.Products.Find(product.Id);
+            _db.Products.Remove(product);
             _db.SaveChanges();
 
             return RedirectToAction("Index");

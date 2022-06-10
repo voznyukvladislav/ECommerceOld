@@ -61,3 +61,19 @@ function deletePreset(inputId) {
 		}
 	})
 }
+
+function deleteProduct(inputId) {
+	let id = document.getElementById(inputId).value;
+
+	$.ajax({
+		type: "DELETE",
+		url: "Product/Delete",
+		async: false,
+		data: {
+			Id: id
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}
