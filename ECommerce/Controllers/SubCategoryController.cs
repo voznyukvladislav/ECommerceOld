@@ -27,7 +27,7 @@ namespace ECommerce.Controllers
         {
             Category category = _db.Categories.Find(subCategory.Category.Id);
             subCategory.Category = category;
-
+            
             _db.SubCategories.Add(subCategory);
             _db.SaveChanges();
 
@@ -37,10 +37,14 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(SubCategory subCategory)
         {
-            Category category = _db.Categories.Find(subCategory.Category.Id);
-            subCategory.Category = category;
-            _db.SubCategories.Update(subCategory);
-            _db.SaveChanges();
+            if(_db.SubCategories.Any(sc => sc.Id == subCategory.Id))
+            {
+                Category category = _db.Categories.Find(subCategory.Category.Id);
+                subCategory.Category = category;
+
+                _db.SubCategories.Update(subCategory);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
@@ -48,9 +52,12 @@ namespace ECommerce.Controllers
         [HttpDelete]
         public IActionResult Delete(SubCategory subCategory)
         {
-            subCategory = _db.SubCategories.Find(subCategory.Id);
-            _db.SubCategories.Remove(subCategory);
-            _db.SaveChanges();
+            if(_db.SubCategories.Any(sc => sc.Id == subCategory.Id))
+            {
+                subCategory = _db.SubCategories.Find(subCategory.Id);
+                _db.SubCategories.Remove(subCategory);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }

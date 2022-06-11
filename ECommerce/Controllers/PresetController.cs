@@ -54,20 +54,23 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(Preset preset, string CheckedListJson)
         {
-            List<string> attributeIdListDTO = JsonSerializer.Deserialize<List<string>>(CheckedListJson);
-            List<Models.Attribute> attributes = new List<Models.Attribute>();
-            List<Preset_Attribute> preset_Attributes = new List<Preset_Attribute>();
-            for (int i = 0; i < attributeIdListDTO.Count; i++)
+            if(_db.Presets.Any(p => p.Id == preset.Id))
             {
-                attributes.Add(_db.Attributes.Find(Convert.ToInt32(attributeIdListDTO[i])));
+                List<string> attributeIdListDTO = JsonSerializer.Deserialize<List<string>>(CheckedListJson);
+                List<Models.Attribute> attributes = new List<Models.Attribute>();
+                List<Preset_Attribute> preset_Attributes = new List<Preset_Attribute>();
+                for (int i = 0; i < attributeIdListDTO.Count; i++)
+                {
+                    attributes.Add(_db.Attributes.Find(Convert.ToInt32(attributeIdListDTO[i])));
 
-                preset_Attributes.Add(new Preset_Attribute() { Attribute = attributes[i], Preset = preset });
-            }
+                    preset_Attributes.Add(new Preset_Attribute() { Attribute = attributes[i], Preset = preset });
+                }
 
-            preset.Preset_Attributes = preset_Attributes;
+                preset.Preset_Attributes = preset_Attributes;
 
-            _db.Presets.Update(preset);
-            _db.SaveChanges();
+                _db.Presets.Update(preset);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
@@ -75,9 +78,12 @@ namespace ECommerce.Controllers
         [HttpDelete]
         public IActionResult Delete(Preset preset)
         {
-            preset = _db.Presets.Find(preset.Id);
-            _db.Presets.Remove(preset);
-            _db.SaveChanges();
+            if(_db.Presets.Any(p => p.Id == preset.Id))
+            {
+                preset = _db.Presets.Find(preset.Id);
+                _db.Presets.Remove(preset);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }

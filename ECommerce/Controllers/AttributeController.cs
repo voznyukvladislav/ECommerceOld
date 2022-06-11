@@ -29,8 +29,11 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(ECommerce.Models.Attribute attribute)
         {
-            _db.Attributes.Update(attribute);
-            _db.SaveChanges();
+            if(_db.Attributes.Any(a => a.Id == attribute.Id))
+            {
+                _db.Attributes.Update(attribute);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
@@ -38,9 +41,12 @@ namespace ECommerce.Controllers
         [HttpDelete]
         public IActionResult Delete(ECommerce.Models.Attribute attribute)
         {
-            attribute = _db.Attributes.Find(attribute.Id);
-            _db.Attributes.Remove(attribute);
-            _db.SaveChanges();
+            if(_db.Attributes.Any(a => a.Id == attribute.Id))
+            {
+                attribute = _db.Attributes.Find(attribute.Id);
+                _db.Attributes.Remove(attribute);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }

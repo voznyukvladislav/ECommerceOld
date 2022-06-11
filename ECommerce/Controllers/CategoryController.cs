@@ -28,16 +28,24 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(Category category)
         {
-            _db.Categories.Update(category);
-            _db.SaveChanges();
+            if(_db.Categories.Any(c => c.Id == category.Id))
+            {
+                _db.Categories.Update(category);
+                _db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 
         [HttpDelete]
         public IActionResult Delete(Category category)
         {
-            _db.Categories.Remove(category);
-            _db.SaveChanges();
+            if(_db.Categories.Any(c => c.Id == category.Id))
+            {
+                _db.Categories.Remove(category);
+                _db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
     }

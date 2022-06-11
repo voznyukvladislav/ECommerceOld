@@ -12,9 +12,9 @@
 
 <div class="form">
     <p class="formHeader"> Додати нову субкатегорію товарів </p>
-    <form action="post" autocomplete="off">
+    <form action="post" autocomplete="off" spellcheck="false">
         <input class="formInput" id="inputName" type="text" name="SubCategory.Name" placeholder="Введіть назву субкатегорії">
-        <input readonly placeholder="Оберіть категорію зі списку" class="formInput" id="inputCategory" data-categoryId="0">
+        <input readonly placeholder="Оберіть категорію зі списку" class="formInput" id="inputCategory" data-categoryId="">
         
         <div class="dropdown">
             <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список категорій </a>
@@ -35,7 +35,7 @@
 @for(int i = 0; i < subCategories.Count; i++) {
     <div class="form">
         <p class="formHeader"> №@(i + 1) </p>
-        <form action="post">
+        <form action="post" autocomplete="off" spellcheck="false">
             <input readonly class="formInput" id="inputId@(i)" type="text" name="SubCategory.Id" value="@subCategories[i].Id">
             <input class="formInput" id="inputName@(i)" type="text" name="SubCategory.Name" placeholder="Введіть назву субкатегорії" value="@subCategories[i].Name">
             <input readonly placeholder="Оберіть категорію зі списку" class="formInput" id="inputCategory@(i)" value="@subCategories[i].Category.Name" data-categoryId="@subCategories[i].Category.Id">

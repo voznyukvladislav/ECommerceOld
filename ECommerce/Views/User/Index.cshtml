@@ -8,7 +8,7 @@
 
 <div class="form">
     <p class="formHeader"> Додати нового користувача </p>
-    <form action="post" autocomplete="off">
+    <form action="post" autocomplete="off" spellcheck="false">
         <input class="formInput" id="inputName" type="text" name="User.Name" placeholder="Введіть логін користувача">
         <input class="formInput" id="inputPassword" type="text" name="User.Password" placeholder="Введіть пароль користувача">
         <a class="formButton" onclick="addUser('inputName', 'inputPassword')"> Додати </a>
@@ -20,7 +20,7 @@
 @for(int i = 0; i < Model.Count; i++) {
     <div class="form">
         <p class="formHeader"> Користувач №@(i + 1) </p>
-        <form action="post">
+        <form action="post" autocomplete="off" spellcheck="false">
             <input id="formInputId@(i)" readonly class="formInput" type="text" name="User.Id" value="@Model[i].Id">
             <input id="formInputName@(i)" class="formInput" type="text" name="User.Name" value="@Model[i].Name" placeholder="Введіть ім'я користувача'">
             <input id="formInputPassword@(i)" class="formInput" type="text" name="User.Password" value="@Model[i].Password" placeholder="Введіть пароль користувача'">

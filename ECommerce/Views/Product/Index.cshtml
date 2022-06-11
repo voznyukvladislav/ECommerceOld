@@ -14,7 +14,7 @@
 
 <div class="form">
     <p class="formHeader"> Додати новий товар </p>
-    <form action="post" autocomplete="off">
+    <form action="post" autocomplete="off" spellcheck="false">
         <p class="formHeader"> Оберіть один з пресетів </p>
         <div class="dropdown">
             <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список пресетів </a>
@@ -40,7 +40,7 @@
     <div class="form">
     <p class="formHeader"> Товар №@(i) </p>
     <p class="formHeader"> Пресет: @Products[i].Preset.Name </p>
-    <form action="post" autocomplete="off">  
+    <form action="post" autocomplete="off" spellcheck="false">  
         <input readonly type="text" class="formInput" id="formInputId@(i)"
             value=@Products[i].Id>
         <div class="dropdown">            

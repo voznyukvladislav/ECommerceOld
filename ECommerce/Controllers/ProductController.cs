@@ -87,35 +87,38 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(string Attributes, Product product)
         {
-            //product = _db.Products.Find(product.Id);
-
-            product = (from prod in _db.Products
-                      .Include(prod => prod.Product_Attributes)
-                      .ToList()
-                       where prod.Id == product.Id
-                       select prod).ToList()[0];
-
-            List < AttributeDTO > attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
-
-            //List<Product_Attribute> product_Attributes = new List<Product_Attribute>();
-            Models.Attribute attribute; 
-            for(int i = 0; i < attributeDTOs.Count; i++)
+            if(_db.Products.Any(p => p.Id == product.Id))
             {
-                attribute = _db.Attributes.Find(Convert.ToInt32(attributeDTOs[i].AttributeId));
-                //product_Attributes.Add(new Product_Attribute { Attribute = attribute, Product = product, Value = attributeDTOs[i].Value });
-                for(int j = 0; j < product.Product_Attributes.Count; j++)
+                //product = _db.Products.Find(product.Id);
+
+                product = (from prod in _db.Products
+                          .Include(prod => prod.Product_Attributes)
+                          .ToList()
+                           where prod.Id == product.Id
+                           select prod).ToList()[0];
+
+                List<AttributeDTO> attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
+
+                //List<Product_Attribute> product_Attributes = new List<Product_Attribute>();
+                Models.Attribute attribute;
+                for (int i = 0; i < attributeDTOs.Count; i++)
                 {
-                    if (product.Product_Attributes[j].Attribute.Id == Convert.ToInt32(attributeDTOs[i].AttributeId))
+                    attribute = _db.Attributes.Find(Convert.ToInt32(attributeDTOs[i].AttributeId));
+                    //product_Attributes.Add(new Product_Attribute { Attribute = attribute, Product = product, Value = attributeDTOs[i].Value });
+                    for (int j = 0; j < product.Product_Attributes.Count; j++)
                     {
-                        product.Product_Attributes[j].Value = attributeDTOs[i].Value;
-                        break;
+                        if (product.Product_Attributes[j].Attribute.Id == Convert.ToInt32(attributeDTOs[i].AttributeId))
+                        {
+                            product.Product_Attributes[j].Value = attributeDTOs[i].Value;
+                            break;
+                        }
                     }
                 }
-            }
 
-            //product.Product_Attributes = product_Attributes;
-            _db.Products.Update(product);
-            _db.SaveChanges();
+                //product.Product_Attributes = product_Attributes;
+                _db.Products.Update(product);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
@@ -123,9 +126,12 @@ namespace ECommerce.Controllers
         [HttpDelete]
         public IActionResult Delete(Product product)
         {
-            product = _db.Products.Find(product.Id);
-            _db.Products.Remove(product);
-            _db.SaveChanges();
+            if(_db.Products.Any(p => p.Id == product.Id))
+            {
+                product = _db.Products.Find(product.Id);
+                _db.Products.Remove(product);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }

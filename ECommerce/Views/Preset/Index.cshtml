@@ -15,7 +15,7 @@
 
 <div class="form">
     <p class="formHeader"> Додати новий пресет </p>
-    <form action="post" autocomplete="off">
+    <form action="post" autocomplete="off" spellcheck="false">
         <input class="formInput" id="inputName" type="text" name="Preset.Name" placeholder="Введіть назву пресету">
         
         <div class="dropdown">
@@ -54,7 +54,7 @@
 {
     <div class="form">
     <p class="formHeader"> №@(i + 1) </p>
-    <form action="post" autocomplete="off">
+    <form action="post" autocomplete="off" spellcheck="false">
         <input readonly class="formInput" id="inputId@(i)" type="text" name="Preset.Id" value="@Presets[i].Id">
         <input readonly class="formInput" id="inputSubCategory@(i)" type="text" name="Preset.Id" value="@Presets[i].SubCategory.Name">
         <input class="formInput" id="inputName@(i)" type="text" name="Preset.Name" value="@Presets[i].Name" placeholder="Введіть назву пресету">

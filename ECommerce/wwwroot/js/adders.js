@@ -1,50 +1,54 @@
 ﻿function addCategory(inputId) {
 	let name = document.getElementById(inputId).value;
-	$.ajax({
-		type: "POST",
-		url: "Category/Add",
-		async: false,
-		data: {
-			Name: name
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+	if (name) {
+		$.ajax({
+			type: "POST",
+			url: "Category/Add",
+			async: false,
+			data: {
+				Name: name
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 }
 
 function addSubCategory(inputNameId, inputCategoryId) {
 	let name = document.getElementById(inputNameId).value;
 	let categoryId = document.getElementById(inputCategoryId).getAttribute('data-categoryId');
-
-	$.ajax({
-		type: "POST",
-		url: "SubCategory/Add",
-		async: false,
-		data: {
-			Name: name,
-			'Category.Id': categoryId
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+	if (name && categoryId) {
+		$.ajax({
+			type: "POST",
+			url: "SubCategory/Add",
+			async: false,
+			data: {
+				Name: name,
+				'Category.Id': categoryId
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 }
 
 function addAttribute(inputNameId) {
 	let name = document.getElementById(inputNameId).value;
-
-	$.ajax({
-		type: "POST",
-		url: "Attribute/Add",
-		async: false,
-		data: {
-			Name: name
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+	if (name) {
+		$.ajax({
+			type: "POST",
+			url: "Attribute/Add",
+			async: false,
+			data: {
+				Name: name
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 }
 
 function addPreset(presetNameId, attributesCount, subCategoriesCount) {
@@ -68,19 +72,21 @@ function addPreset(presetNameId, attributesCount, subCategoriesCount) {
 
 	let checkedListJson = JSON.stringify(checkedList);
 
-	$.ajax({
-		type: "POST",
-		url: "Preset/Add",
-		async: false,
-		data: {
-			'SubCategory.Id': subCategoryId,
-			Name: name,
-			CheckedListJson: checkedListJson
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+	if (subCategoryId && name && checkedListJson) {
+		$.ajax({
+			type: "POST",
+			url: "Preset/Add",
+			async: false,
+			data: {
+				'SubCategory.Id': subCategoryId,
+				Name: name,
+				CheckedListJson: checkedListJson
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 
 	console.log(checkedList);
 }
@@ -95,17 +101,19 @@ function addProductForm(presetsCount) {
         }
     }
 
-	$.ajax({
-		type: "POST",
-		url: "Product/AddForm",
-		async: false,
-		data: {
-			'Preset.Id': presetId
-		},
-		success: function (data, status, xhr) {
-			document.body.innerHTML = data;
-		}
-	})
+	if (presetId) {
+		$.ajax({
+			type: "POST",
+			url: "Product/AddForm",
+			async: false,
+			data: {
+				'Preset.Id': presetId
+			},
+			success: function (data, status, xhr) {
+				document.body.innerHTML = data;
+			}
+		})
+    }	
 }
 
 class Attribute {
@@ -126,35 +134,40 @@ function addProduct(attributesCount, presetId) {
 	}
 
 	let attributesJson = JSON.stringify(attributes);
-	$.ajax({
-		type: "POST",
-		url: "Product/Add",
-		async: false,
-		data: {
-			Attributes: attributesJson,
-			Price: price,
-			'Preset.Id': presetId
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+
+	if (attributesJson && price && presetId) {
+		$.ajax({
+			type: "POST",
+			url: "Product/Add",
+			async: false,
+			data: {
+				Attributes: attributesJson,
+				Price: price,
+				'Preset.Id': presetId
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 }
 
 function addUser(inputName, inputPassword) {
 	let name = document.getElementById(inputName).value;
 	let password = document.getElementById(inputPassword).value;
 
-	$.ajax({
-		type: "POST",
-		url: "User/Add",
-		async: false,
-		data: {
-			'User.Name': name,
-			'User.Password': password
-		},
-		success: () => {
-			document.location.reload();
-		}
-	})
+	if (name && password) {
+		$.ajax({
+			type: "POST",
+			url: "User/Add",
+			async: false,
+			data: {
+				'User.Name': name,
+				'User.Password': password
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }	
 }

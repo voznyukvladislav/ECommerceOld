@@ -31,8 +31,11 @@ namespace ECommerce.Controllers
         [HttpPost]
         public IActionResult Update(User user)
         {
-            _db.Users.Update(user);
-            _db.SaveChanges();
+            if(_db.Users.Any(u => u.Id == user.Id))
+            {
+                _db.Users.Update(user);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
@@ -40,9 +43,12 @@ namespace ECommerce.Controllers
         [HttpDelete]
         public IActionResult Delete(User user)
         {
-            user = _db.Users.Find(user.Id);
-            _db.Users.Remove(user);
-            _db.SaveChanges();
+            if(_db.Users.Any(u => u.Id == user.Id))
+            {
+                user = _db.Users.Find(user.Id);
+                _db.Users.Remove(user);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
