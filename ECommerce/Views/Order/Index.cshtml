@@ -1,0 +1,49 @@
+﻿@{
+    List<Order> Orders = ViewBag.Orders;
+}
+
+<script src="~/js/checkbox.js"></script>
+<script src="~/js/dropdown.js"></script>
+<script src="~/js/adders.js"></script>
+<script src="~/js/updaters.js"></script>
+<script src="~/js/deleters.js"></script>
+<script src="~/js/jQuery.js"></script>
+
+@for(int i = 0; i < Orders.Count; i++) {
+    <div class="form">
+    <p class="formHeader"> Замовлення №@(i + 1) </p>
+    <p class="formHeader"> Загальна ціна: @Orders[i].Price </p>
+    <p class="formHeader"> Код замовника: @Orders[i].Customer.Id </p>
+    <p class="formHeader"> Замовник: @Orders[i].Customer.Name </p>
+    <form action="post" autocomplete="off" spellcheck="false">        
+        <div class="dropdown width90">
+            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список замовлених товарів </a>
+            <div class="dropdownContent maxHeight500" id="dropdownList@(i)">
+                @for(int j = 0; j < Orders[i].Order_Products.Count; j++)
+                {
+                    <div class="form">
+                        <p class="formHeader"> Товар №@(j + 1) </p>
+                        <p class="formHeader"> Кількість: @Orders[i].Order_Products[j].Count </p>
+                        <p class="formHeader"> Ціна: @Orders[i].Order_Products[j].OrderedPrice </p>
+                        <p class="formHeader"> Назва: @Orders[i].Order_Products[j].Product.Name </p>
+                        <div class="dropdown">            
+                            <a class="dropdownButton" id="dropdownButton@(i)@(j)" onclick="showList('dropdownList@(i)@(j)', 'dropdownButton@(i)@(j)')"> Список значень </a>
+                            <div class="dropdownContent" id="dropdownList@(i)@(j)">                               
+                                @for(int k = 0; k < Orders[i].Order_Products[j].Product.Product_Attributes.Count; k++)
+                                {
+                                     <p class="formHeader">
+                                        @Orders[i].Order_Products[j].Product.Product_Attributes[k].Attribute.Name:
+                                        @Orders[i].Order_Products[j].Product.Product_Attributes[k].Value
+                                     </p>       
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }                
+            </div>
+        </div>
+        
+        <a class="formButton" onclick="deleteOrder(@Orders[i].Id)"> Видалити </a>
+    </form>
+</div>
+}

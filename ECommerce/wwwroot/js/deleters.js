@@ -109,3 +109,17 @@ function deleteDiscount(inputId) {
 		}
 	})
 }
+
+function deleteOrder(orderId) {
+	$.ajax({
+		type: "DELETE",
+		url: "Order/Delete",
+		async: false,
+		data: {
+			'Order.Id': orderId
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

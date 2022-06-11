@@ -14,7 +14,7 @@ namespace ECommerce.Data
         public DbSet<PricesArchive> PricesArchives { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderedProduct> OrderedProducts { get; set; }
+        public DbSet<Order_Product> Order_Products { get; set; }
         public DbSet<Preset> Presets { get; set; }
         public DbSet<Preset_Attribute> Preset_Attributes { get; set; }
 
