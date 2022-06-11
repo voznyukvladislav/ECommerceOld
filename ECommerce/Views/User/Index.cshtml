@@ -1,0 +1,35 @@
+﻿@using ECommerce.Data;
+@model List<User>
+
+<script src="~/js/adders.js"></script>
+<script src="~/js/updaters.js"></script>
+<script src="~/js/deleters.js"></script>
+<script src="~/js/jQuery.js"></script>
+
+<div class="form">
+    <p class="formHeader"> Додати нового користувача </p>
+    <form action="post" autocomplete="off">
+        <input class="formInput" id="inputName" type="text" name="User.Name" placeholder="Введіть логін користувача">
+        <input class="formInput" id="inputPassword" type="text" name="User.Password" placeholder="Введіть пароль користувача">
+        <a class="formButton" onclick="addUser('inputName', 'inputPassword')"> Додати </a>
+    </form>
+</div>
+
+<hr>
+
+@for(int i = 0; i < Model.Count; i++) {
+    <div class="form">
+        <p class="formHeader"> Користувач №@(i + 1) </p>
+        <form action="post">
+            <input id="formInputId@(i)" readonly class="formInput" type="text" name="User.Id" value="@Model[i].Id">
+            <input id="formInputName@(i)" class="formInput" type="text" name="User.Name" value="@Model[i].Name" placeholder="Введіть ім'я користувача'">
+            <input id="formInputPassword@(i)" class="formInput" type="text" name="User.Password" value="@Model[i].Password" placeholder="Введіть пароль користувача'">
+            <table class="buttonsHolder">
+                <tr>
+                    <td><a class="button" onclick="updateUser('formInputId@(i)', 'formInputName@(i)', 'formInputPassword@(i)')">Змінити</a></td>
+                    <td><a class="button deleteButton" onclick="deleteUser('formInputId@(i)')">Видалити</a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}

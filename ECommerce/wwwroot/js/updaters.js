@@ -109,3 +109,23 @@ function updateProduct(productInputId, attributesCount, i) {
 		}
 	})
 }
+
+function updateUser(userId, userName, userPassword) {
+	let id = document.getElementById(userId).value;
+	let name = document.getElementById(userName).value;
+	let password = document.getElementById(userPassword).value;
+
+	$.ajax({
+		type: "POST",
+		url: "User/Update",
+		async: false,
+		data: {
+			'User.Id': id,
+			'User.Name': name,
+			'User.Password': password
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

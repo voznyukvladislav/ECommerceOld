@@ -18,16 +18,17 @@ namespace ECommerce.Controllers
         {
             List<Models.Attribute> attributes = _db.Attributes.ToList();
             List<Preset> presets = _db.Presets.Include(attribute => attribute.Preset_Attributes).ToList();
-
+            List<SubCategory> subCategories = _db.SubCategories.ToList();
 
             ViewBag.Attributes = attributes;
             ViewBag.Presets = presets;
+            ViewBag.SubCategories = subCategories;
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(Preset preset, string CheckedListJson)
+        public IActionResult Add(Preset preset, string CheckedListJson, SubCategory subCategory)
         {
             List<string> attributeIdListDTO = JsonSerializer.Deserialize<List<string>>(CheckedListJson);
             List<Models.Attribute> attributes = new List<Models.Attribute>();
@@ -40,6 +41,9 @@ namespace ECommerce.Controllers
             }
 
             preset.Preset_Attributes = preset_Attributes;
+
+            subCategory = _db.SubCategories.Find(subCategory.Id);
+            preset.SubCategory = subCategory;
 
             _db.Presets.Add(preset);
             _db.SaveChanges();

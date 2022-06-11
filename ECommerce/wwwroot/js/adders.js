@@ -47,8 +47,17 @@ function addAttribute(inputNameId) {
 	})
 }
 
-function addPreset(presetNameId, attributesCount) {
+function addPreset(presetNameId, attributesCount, subCategoriesCount) {
 	let name = document.getElementById(presetNameId).value;
+
+	let subCategoryId, radio;
+	for (let i = 0; i < subCategoriesCount; i++) {
+		radio = document.getElementById(`radio${i}`);
+		if (radio.checked) {
+			subCategoryId = radio.value;
+			break;
+		}
+	}
 
 	let checkedList = Array();
 	let checkboxListItem;
@@ -64,6 +73,7 @@ function addPreset(presetNameId, attributesCount) {
 		url: "Preset/Add",
 		async: false,
 		data: {
+			'SubCategory.Id': subCategoryId,
 			Name: name,
 			CheckedListJson: checkedListJson
 		},
@@ -124,6 +134,24 @@ function addProduct(attributesCount, presetId) {
 			Attributes: attributesJson,
 			Price: price,
 			'Preset.Id': presetId
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}
+
+function addUser(inputName, inputPassword) {
+	let name = document.getElementById(inputName).value;
+	let password = document.getElementById(inputPassword).value;
+
+	$.ajax({
+		type: "POST",
+		url: "User/Add",
+		async: false,
+		data: {
+			'User.Name': name,
+			'User.Password': password
 		},
 		success: () => {
 			document.location.reload();

@@ -3,6 +3,7 @@
 @{
     List<ECommerce.Models.Attribute> Attributes = ViewBag.Attributes;
     List<Preset> Presets = ViewBag.Presets;
+    List<SubCategory> SubCategories = ViewBag.SubCategories;
 }
 
 <script src="~/js/checkbox.js"></script>
@@ -18,8 +19,21 @@
         <input class="formInput" id="inputName" type="text" name="Preset.Name" placeholder="Введіть назву пресету">
         
         <div class="dropdown">
-            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список </a>
+            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список субкатегорій </a>
             <div class="dropdownContent" id="dropdownList">
+                @for(int i = 0; i < SubCategories.Count; i++)
+                {
+                    <div class="checkboxListItem" onclick="check('radio@(i)')">
+                        <input name="presetId" type="radio" class="checkbox" id="radio@(i)" value="@SubCategories[i].Id">
+                        <label>@(i + 1). @SubCategories[i].Name</label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a class="dropdownButton" id="dropdownButtonRadio" onclick="showList('dropdownListRadio', 'dropdownButtonRadio')"> Список атрибутів </a>
+            <div class="dropdownContent" id="dropdownListRadio">
                 @for(int i = 0; i < Attributes.Count; i++)
                 {
                     <div class="checkboxListItem" onclick=" check('checkbox@(i)')">
@@ -30,7 +44,7 @@
             </div>
         </div>
         
-        <a class="formButton" onclick="addPreset('inputName', @Attributes.Count)"> Додати </a>
+        <a class="formButton" onclick="addPreset('inputName', @Attributes.Count, @SubCategories.Count)"> Додати </a>
     </form>
 </div>
 
@@ -42,6 +56,7 @@
     <p class="formHeader"> №@(i + 1) </p>
     <form action="post" autocomplete="off">
         <input readonly class="formInput" id="inputId@(i)" type="text" name="Preset.Id" value="@Presets[i].Id">
+        <input readonly class="formInput" id="inputSubCategory@(i)" type="text" name="Preset.Id" value="@Presets[i].SubCategory.Name">
         <input class="formInput" id="inputName@(i)" type="text" name="Preset.Name" value="@Presets[i].Name" placeholder="Введіть назву пресету">
         
         <div class="dropdown">

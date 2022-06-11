@@ -17,14 +17,14 @@
     <form action="post" autocomplete="off">
         <p class="formHeader"> Оберіть один з пресетів </p>
         <div class="dropdown">
-            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список </a>
+            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список пресетів </a>
             <div class="dropdownContent" id="dropdownList">
                 @for(int i = 0; i < Presets.Count; i++)
                 {
-                    <div class="checkboxListItem" onclick=" check('radio@(i)')">
+                    <div class="checkboxListItem" onclick="check('radio@(i)')">
                         <input name="presetId" type="radio" class="checkbox" id="radio@(i)" value="@Presets[i].Id">
                         <label >@(i + 1). @Presets[i].Name</label>
-                    </div>                    
+                    </div>
                 }
             </div>
         </div>
@@ -39,7 +39,7 @@
 {
     <div class="form">
     <p class="formHeader"> Товар №@(i) </p>
-    <p class="formHeader"> Пресет: @Products[i].Preset.Name     </p>
+    <p class="formHeader"> Пресет: @Products[i].Preset.Name </p>
     <form action="post" autocomplete="off">  
         <input readonly type="text" class="formInput" id="formInputId@(i)"
             value=@Products[i].Id>
@@ -58,9 +58,7 @@
         </div>
         <table class="buttonsHolder">
             <tr>
-                <td><a class="button"
-                    onclick="updateProduct('formInputId@(i)', @Products[i].Product_Attributes.Count, @(i))"
-                >Змінити</a></td>
+                <td><a class="button" onclick="updateProduct('formInputId@(i)', @Products[i].Product_Attributes.Count, @(i))">Змінити</a></td>
                 <td><a class="button deleteButton" onclick="deleteProduct('formInputId@(i)')">Видалити</a></td>
             </tr>
         </table>
