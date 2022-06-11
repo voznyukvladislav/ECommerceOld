@@ -129,3 +129,25 @@ function updateUser(userId, userName, userPassword) {
 		}
 	})
 }
+
+function updateDiscount(discountId, discountName, discountValue) {
+	let id = document.getElementById(discountId).value;
+	let name = document.getElementById(discountName).value;
+	let value = document.getElementById(discountValue).value;
+
+	if (id && name && value) {
+		$.ajax({
+			type: "POST",
+			url: "Discount/Update",
+			async: false,
+			data: {
+				'Discount.Id': id,
+				'Discount.Name': name,
+				'Value': value
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }
+}

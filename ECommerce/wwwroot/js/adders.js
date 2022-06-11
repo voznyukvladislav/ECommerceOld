@@ -171,3 +171,23 @@ function addUser(inputName, inputPassword) {
 		})
     }	
 }
+
+function addDiscount(inputName, inputValue) {
+	let name = document.getElementById(inputName).value;
+	let value = document.getElementById(inputValue).value;
+
+	if (name && value) {
+		$.ajax({
+			type: "POST",
+			url: "Discount/Add",
+			async: false,
+			data: {
+				'Discount.Name': name,
+				'value': value
+			},
+			success: () => {
+				document.location.reload();
+			}
+		})
+    }
+}

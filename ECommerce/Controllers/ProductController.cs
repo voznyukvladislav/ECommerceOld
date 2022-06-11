@@ -2,6 +2,7 @@
 using ECommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Text.Json;
 
 namespace ECommerce.Controllers
@@ -51,11 +52,13 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(string Attributes, decimal Price, Preset preset)
+        public IActionResult Add(string Attributes, string Price, Preset preset)
         {
             Product product = new Product();
+            decimal price = 0;
             product.Preset = _db.Presets.Find(preset.Id);
-            product.Price = Price;
+            Decimal.TryParse(Price, NumberStyles.Any, CultureInfo.InvariantCulture, out price);
+            product.Price = price;
 
             List<AttributeDTO> attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
             
@@ -85,17 +88,21 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(string Attributes, Product product)
+        public IActionResult Update(string Attributes, string Price, Product product)
         {
             if(_db.Products.Any(p => p.Id == product.Id))
             {
-                //product = _db.Products.Find(product.Id);
+                //product = _db.Products.Find(product.Id);                
 
                 product = (from prod in _db.Products
                           .Include(prod => prod.Product_Attributes)
                           .ToList()
                            where prod.Id == product.Id
                            select prod).ToList()[0];
+
+                decimal price = 0;
+                Decimal.TryParse(Price, NumberStyles.Any, CultureInfo.InvariantCulture, out price);
+                product.Price = price;
 
                 List<AttributeDTO> attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
 

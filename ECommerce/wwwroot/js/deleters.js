@@ -93,3 +93,19 @@ function deleteUser(inputId) {
 		}
 	})
 }
+
+function deleteDiscount(inputId) {
+	let id = document.getElementById(inputId).value;
+
+	$.ajax({
+		type: "DELETE",
+		url: "Discount/Delete",
+		async: false,
+		data: {
+			Id: id
+		},
+		success: () => {
+			document.location.reload();
+		}
+	})
+}

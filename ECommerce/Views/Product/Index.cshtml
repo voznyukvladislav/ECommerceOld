@@ -46,7 +46,7 @@
         <div class="dropdown">            
             <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список </a>
             <div class="dropdownContent" id="dropdownList@(i)">
-                <input type="number" class="formInput" id="formInputPrice@(i)" value=@Products[i].Price placeholder="Ціна">
+                <input type="number" class="formInput" id="formInputPrice@(i)" value=@Products[i].Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) placeholder="Ціна">
                 @for(int j = 0; j < Products[i].Preset.Preset_Attributes.Count; j++)
                 {
                      <input type="text" class="formInput" id="formInput@(i)@(j)"

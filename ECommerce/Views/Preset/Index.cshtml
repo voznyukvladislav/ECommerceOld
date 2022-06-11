@@ -60,7 +60,7 @@
         <input class="formInput" id="inputName@(i)" type="text" name="Preset.Name" value="@Presets[i].Name" placeholder="Введіть назву пресету">
         
         <div class="dropdown">
-            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список </a>
+            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список атрибутів </a>
             <div class="dropdownContent" id="dropdownList@(i)">
                 @for(int j = 0; j < Attributes.Count; j++)
                 {
