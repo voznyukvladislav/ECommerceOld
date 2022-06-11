@@ -3,6 +3,7 @@
 @{
     List<Preset> Presets = ViewBag.Presets;    
     List<Product> Products = ViewBag.Products;
+    List<Discount> Discounts = ViewBag.Discounts;
 }
 
 <script src="~/js/checkbox.js"></script>
@@ -17,17 +18,17 @@
     <form action="post" autocomplete="off" spellcheck="false">
         <p class="formHeader"> Оберіть один з пресетів </p>
         <div class="dropdown">
-            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список пресетів </a>
-            <div class="dropdownContent" id="dropdownList">
+            <a class="dropdownButton" id="dropdownButtonPreset" onclick="showList('dropdownListPreset', 'dropdownButtonPreset')"> Список пресетів </a>
+            <div class="dropdownContent" id="dropdownListPreset">
                 @for(int i = 0; i < Presets.Count; i++)
                 {
-                    <div class="checkboxListItem" onclick="check('radio@(i)')">
-                        <input name="presetId" type="radio" class="checkbox" id="radio@(i)" value="@Presets[i].Id">
+                    <div class="checkboxListItem" onclick="check('radioPreset@(i)')">
+                        <input name="presetId" type="radio" class="checkbox" id="radioPreset@(i)" value="@Presets[i].Id">
                         <label >@(i + 1). @Presets[i].Name</label>
                     </div>
                 }
             </div>
-        </div>
+        </div>        
         
         <a class="formButton" onclick="addProductForm('@(Presets.Count)')"> Додати </a>
     </form>
@@ -43,8 +44,10 @@
     <form action="post" autocomplete="off" spellcheck="false">  
         <input readonly type="text" class="formInput" id="formInputId@(i)"
             value=@Products[i].Id>
+        <input type="text" class="formInput" id="formInputName@(i)"
+            value=@Products[i].Name>
         <div class="dropdown">            
-            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список </a>
+            <a class="dropdownButton" id="dropdownButton@(i)" onclick="showList('dropdownList@(i)', 'dropdownButton@(i)')"> Список значень </a>
             <div class="dropdownContent" id="dropdownList@(i)">
                 <input type="number" class="formInput" id="formInputPrice@(i)" value=@Products[i].Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) placeholder="Ціна">
                 @for(int j = 0; j < Products[i].Preset.Preset_Attributes.Count; j++)
@@ -56,9 +59,32 @@
                 }
             </div>
         </div>
+
+        <div class="dropdown">
+            <a class="dropdownButton" id="dropdownButtonDiscount" onclick="showList('dropdownListDiscount', 'dropdownButtonDiscount')"> Список знижок </a>
+            <div class="dropdownContent" id="dropdownListDiscount">
+                @for(int j = 0; j < Discounts.Count; j++)
+                {
+                    if(Discounts[j].Id == Products[i].Discount.Id)
+                    {
+                        <div class="checkboxListItem" onclick="check('radioDiscount@(i)@(j)')">
+                            <input name="discountId" checked="checked" type="radio" class="checkbox" id="radioDiscount@(i)@(j)" value="@Discounts[j].Id">
+                            <label >@(j + 1). @Discounts[j].Name</label>
+                        </div> 
+                    } else
+                    {
+                        <div class="checkboxListItem" onclick="check('radioDiscount@(i)@(j)')">
+                            <input name="discountId" type="radio" class="checkbox" id="radioDiscount@(i)@(j)" value="@Discounts[j].Id">
+                            <label >@(j + 1). @Discounts[j].Name</label>
+                        </div> 
+                    }
+                }
+            </div>
+        </div>
+
         <table class="buttonsHolder">
             <tr>
-                <td><a class="button" onclick="updateProduct('formInputId@(i)', @Products[i].Product_Attributes.Count, @(i))">Змінити</a></td>
+                <td><a class="button" onclick="updateProduct('formInputId@(i)', 'formInputName@(i)', @Products[i].Product_Attributes.Count, @Discounts.Count, @(i))">Змінити</a></td>
                 <td><a class="button deleteButton" onclick="deleteProduct('formInputId@(i)')">Видалити</a></td>
             </tr>
         </table>

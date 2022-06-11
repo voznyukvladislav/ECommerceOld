@@ -23,14 +23,18 @@ namespace ECommerce.Controllers
                 .ToList();
 
             List<Product> products = _db.Products
+                .Include(product => product.Discount)
                 .Include(product => product.Preset)
                 .ThenInclude(preset => preset.Preset_Attributes)
                 .ThenInclude(preset => preset.Attribute)
                 .Include(product => product.Product_Attributes)
                 .ToList();
 
+            List<Discount> discounts = _db.Discounts.ToList();
+            
             ViewBag.Products = products;
             ViewBag.Presets = presets;
+            ViewBag.Discounts = discounts;
 
             return View();
         }
@@ -45,60 +49,72 @@ namespace ECommerce.Controllers
                 where presets.Preset == preset
                 select presets).ToList();
             preset.Preset_Attributes = preset_Attributes;
-            
-            ViewBag.Preset = preset;            
+
+            List<Discount> discounts = _db.Discounts.ToList();
+
+            ViewBag.Preset = preset;
+            ViewBag.Discounts = discounts;
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(string Attributes, string Price, Preset preset)
+        public IActionResult Add(string Attributes, string Price, Preset preset, Discount discount, Product product)
         {
-            Product product = new Product();
-            decimal price = 0;
-            product.Preset = _db.Presets.Find(preset.Id);
-            Decimal.TryParse(Price, NumberStyles.Any, CultureInfo.InvariantCulture, out price);
-            product.Price = price;
-
-            List<AttributeDTO> attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
-            
-            List<Product_Attribute> product_Attributes = new List<Product_Attribute>();
-            Models.Attribute attribute;
-            List<Models.Attribute> attributes = new List<Models.Attribute>();
-            Product_Attribute product_Attribute;
-
-            for (int i = 0; i < attributeDTOs.Count; i++)
+            if(_db.Discounts.Any(d => d.Id == discount.Id))
             {
-                attribute = (from attr in _db.Attributes
-                    .Include(a => a.Product_Attributes)
-                    .ToList()
-                    where attr.Id == Convert.ToInt32(attributeDTOs[i].AttributeId)
-                    select attr).ToList()[0];                
-                product_Attribute = new Product_Attribute { Attribute = attribute, Value = attributeDTOs[i].Value, Product = product };
-                product_Attributes.Add(product_Attribute);
-                attribute.Product_Attributes.Add(product_Attribute);
-                attributes.Add(attribute);
-            }
-            product.Product_Attributes = product_Attributes;
-            
-            _db.Products.Add(product);
-            _db.SaveChanges();
+                discount = _db.Discounts.Find(discount.Id);
+                product.Discount = discount;
+
+                decimal price = 0;
+                product.Preset = _db.Presets.Find(preset.Id);
+                Decimal.TryParse(Price, NumberStyles.Any, CultureInfo.InvariantCulture, out price);
+                product.Price = price;
+
+                List<AttributeDTO> attributeDTOs = JsonSerializer.Deserialize<List<AttributeDTO>>(Attributes);
+
+                List<Product_Attribute> product_Attributes = new List<Product_Attribute>();
+                Models.Attribute attribute;
+                List<Models.Attribute> attributes = new List<Models.Attribute>();
+                Product_Attribute product_Attribute;
+
+                for (int i = 0; i < attributeDTOs.Count; i++)
+                {
+                    attribute = (from attr in _db.Attributes
+                        .Include(a => a.Product_Attributes)
+                        .ToList()
+                                 where attr.Id == Convert.ToInt32(attributeDTOs[i].AttributeId)
+                                 select attr).ToList()[0];
+                    product_Attribute = new Product_Attribute { Attribute = attribute, Value = attributeDTOs[i].Value, Product = product };
+                    product_Attributes.Add(product_Attribute);
+                    attribute.Product_Attributes.Add(product_Attribute);
+                    attributes.Add(attribute);
+                }
+                product.Product_Attributes = product_Attributes;
+
+                _db.Products.Add(product);
+                _db.SaveChanges();
+            }            
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Update(string Attributes, string Price, Product product)
+        public IActionResult Update(string Attributes, string Price, Product product, Discount discount)
         {
-            if(_db.Products.Any(p => p.Id == product.Id))
+            if(_db.Products.Any(p => p.Id == product.Id) && _db.Discounts.Any(d => d.Id == discount.Id))
             {
                 //product = _db.Products.Find(product.Id);                
-
+                string name = product.Name;
                 product = (from prod in _db.Products
                           .Include(prod => prod.Product_Attributes)
                           .ToList()
                            where prod.Id == product.Id
                            select prod).ToList()[0];
+                product.Name = name;
+
+                discount = _db.Discounts.Find(discount.Id);
+                product.Discount = discount;
 
                 decimal price = 0;
                 Decimal.TryParse(Price, NumberStyles.Any, CultureInfo.InvariantCulture, out price);

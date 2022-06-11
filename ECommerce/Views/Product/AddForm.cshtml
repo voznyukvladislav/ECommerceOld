@@ -2,6 +2,7 @@
 @using ECommerce.Models;
 @{
     Preset Preset = ViewBag.Preset;
+    List<Discount> Discounts = ViewBag.Discounts;
 }
 
 <script src="~/js/checkbox.js"></script>
@@ -13,9 +14,10 @@
 
 <div class="form">
     <p class="formHeader"> Додати новий товар </p>
+     <input type="text" class="formInput" id="formInputName" placeholder="Назва">
     <form action="post" autocomplete="off" spellcheck="false">        
         <div class="dropdown">            
-            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список </a>
+            <a class="dropdownButton" id="dropdownButton" onclick="showList('dropdownList', 'dropdownButton')"> Список значень </a>
             <div class="dropdownContent" id="dropdownList">
                 <input type="number" class="formInput" id="formInputPrice" placeholder="Ціна">
                 @for(int i = 0; i < Preset.Preset_Attributes.Count; i++)
@@ -24,8 +26,22 @@
                 }
             </div>
         </div>
+
+        <p class="formHeader"> Оберіть знижку </p>
+        <div class="dropdown">
+            <a class="dropdownButton" id="dropdownButtonDiscount" onclick="showList('dropdownListDiscount', 'dropdownButtonDiscount')"> Список знижок </a>
+            <div class="dropdownContent" id="dropdownListDiscount">
+                @for(int i = 0; i < Discounts.Count; i++)
+                {
+                    <div class="checkboxListItem" onclick="check('radioDiscount@(i)')">
+                        <input name="discountId" type="radio" class="checkbox" id="radioDiscount@(i)" value="@Discounts[i].Id">
+                        <label >@(i + 1). @Discounts[i].Name</label>
+                    </div>
+                }
+            </div>
+        </div>
         
-        <a class="formButton" onclick="addProduct(@(Preset.Preset_Attributes.Count), @Preset.Id)"> Додати </a>
+        <a class="formButton" onclick="addProduct('formInputName', @(Preset.Preset_Attributes.Count), @Discounts.Count, @Preset.Id)"> Додати </a>
     </form>
 </div>
 

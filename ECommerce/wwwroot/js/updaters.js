@@ -82,7 +82,7 @@ function updatePreset(presetInputId, presetNameId, attributesCount, i) {
 	})
 }
 
-function updateProduct(productInputId, attributesCount, i) {
+function updateProduct(productInputId, productNameId, attributesCount, discountsCount, i) {
 	let id = document.getElementById(productInputId).value;
 	let price = document.getElementById(`formInputPrice${i}`).value;
 
@@ -95,6 +95,17 @@ function updateProduct(productInputId, attributesCount, i) {
 
 	let attributesJson = JSON.stringify(attributes);
 
+	let name = document.getElementById(productNameId).value;
+
+	let discount;
+	let discountId;
+	for (let j = 0; j < discountsCount; j++) {
+		discount = document.getElementById(`radioDiscount${i}${j}`);
+		if (discount.checked) {
+			discountId = discount.value;
+        }
+    }
+
 	$.ajax({
 		type: "POST",
 		url: "Product/Update",
@@ -102,7 +113,9 @@ function updateProduct(productInputId, attributesCount, i) {
 		data: {
 			Attributes: attributesJson,
 			Price: price,
-			'Product.Id': id
+			'Product.Id': id,
+			'Product.Name': name,
+			'Discount.Id': discountId
 		},
 		success: () => {
 			document.location.reload();
